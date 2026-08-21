@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    background: #000;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: "Bahnschrift", "BIZ UDPGothic", "Yu Gothic UI", sans-serif;
+    /* Bahnschrift はバリアブルフォント。やや幅を詰めて計器的な表情にする */
+    font-variation-settings: "wght" 400, "wdth" 90;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ビューアなので既定のドラッグ・右クリックメニューは無効化する */
+  img {
+    -webkit-user-drag: none;
+  }
+
+  ::selection {
+    background: rgba(20, 184, 166, 0.32);
+    color: #e2e8f0;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.22);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(20, 184, 166, 0.55);
+    box-shadow: 0 0 12px rgba(20, 184, 166, 0.35);
+  }
+}
+
+@layer components {
+  /* 上下バー・オーバーレイ共通のアクリル質感 */
+  .acrylic {
+    @apply bg-black/70 backdrop-blur-xl border-white/[0.07] shadow-chrome;
+  }
+
+  .label {
+    @apply font-display text-label uppercase text-slate-400;
+    font-variation-settings: "wght" 600, "wdth" 87;
+  }
+
+  .numeric {
+    @apply font-mono tabular-nums;
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "PicView のメインウィンドウに与える最小権限。ウィンドウ操作・ファイル操作はすべて自前コマンド経由で行うため、プラグイン権限はダイアログのみに絞っている。",
+  "windows": ["main"],
+  "permissions": ["core:default", "dialog:default"]
+}

@@ -1,0 +1,98 @@
+{
+  "_readme": "プロジェクトスタイルマニフェスト。エージェントはUIに触れるすべてのタスクの冒頭でこれを読み、ここに無い色・フォント・質感を勝手に導入してはならない。変更はユーザー合意の上でこのファイルを更新し、changelogs.json に記録する。",
+  "meta": {
+    "project": "PicView",
+    "concept": "画像をダブルクリックした瞬間に開く、UIの存在しない画像ビューア。操作したい時だけ最小限のクロームが浮かび上がり、手を止めれば消える。",
+    "mood_keywords": [
+      "消えるUI",
+      "静謐",
+      "計器的",
+      "極細",
+      "暗室"
+    ],
+    "created": "2026-08-21",
+    "updated": "2026-08-23"
+  },
+  "stack": {
+    "framework": "Tauri v2 (Rust) + Vite + React + TypeScript",
+    "styling": "Tailwind CSS v3",
+    "ui_primitives": "Radix UI",
+    "motion": "Framer Motion（LazyMotion + m モジュール）",
+    "_rule": "スタック変更はユーザーの明示指定のみ。Electron は起動速度要件に反するため採用しない"
+  },
+  "palette": {
+    "base_bg": "#05070b",
+    "base_bg_alt": "#000000",
+    "canvas_bg": "#000000",
+    "surface": "bg-white/[0.03]",
+    "surface_deep": "bg-black/70",
+    "border": "border-white/[0.07]",
+    "border_subtle": "border-white/[0.04]",
+    "accent_gradient": "from-teal-600 via-emerald-600 to-emerald-700",
+    "accent_line": "bg-teal-400/70",
+    "accent_glow": "shadow-[0_0_15px_rgba(20,184,166,0.2)]",
+    "accent_badge": "bg-teal-500/10 text-teal-300",
+    "focus_ring": "focus:border-teal-500/50",
+    "danger": "bg-rose-500/10 border-rose-500/20 text-rose-300",
+    "warning": "bg-amber-500/10 border-amber-500/20 text-amber-300",
+    "text_primary": "text-slate-200",
+    "text_secondary": "text-slate-400",
+    "text_description_min": "text-xs 以上・透過なしの text-slate-300 / text-slate-400",
+    "_rule": "画像そのものが主役なので、キャンバス領域は純黒（#000000）を厳守する。クローム（バー類）のみ base_bg 系のアクリルを使う。新しい色はまずここに追記してから使う"
+  },
+  "typography": {
+    "display": "Bahnschrift（Windows 10/11 同梱の DIN 系バリアブルフォント。計器的で、ラベルの UPPERCASE + tracking と相性が良い）",
+    "body": "Bahnschrift",
+    "mono": "Cascadia Mono（Windows 同梱。寸法・ズーム率・インデックス等の数値表示専用）",
+    "jp": "BIZ UDPGothic（Windows 同梱のモダンゴシック。Noto Sans JP ベタ置きと明朝系は禁止）",
+    "font_stack": "'Bahnschrift', 'BIZ UDPGothic', 'Yu Gothic UI', sans-serif",
+    "mono_stack": "'Cascadia Mono', 'Consolas', ui-monospace, monospace",
+    "label_style": "小さめ + UPPERCASE + tracking-widest",
+    "fluid": "clamp() でリサイズに滑らかに追従",
+    "_rule": "外部CDN禁止・オフライン動作必須のため、OS同梱フォントのみを使う。Inter / Roboto / Arial / Outfit / システムフォント総称頼みは禁止"
+  },
+  "texture": {
+    "acrylic": true,
+    "backdrop_blur": "backdrop-blur-xl",
+    "inset_shadow": "shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)]",
+    "chrome_shadow": "shadow-[0_8px_32px_rgba(0,0,0,0.6)]"
+  },
+  "density": {
+    "level": "high",
+    "reference": "Adobe製品 / DaVinci Resolve のインスペクタパネル",
+    "icon_size": "w-3.5 h-3.5（ボタンの外形は 24x24）",
+    "icon_color": "text-slate-400",
+    "slider": "極細トラック + 発光数値バッジ",
+    "chrome_height": "上下バーはそれぞれ 30px。値は src/view/chrome.ts の CHROME を単一情報源とし、バーの高さ・オーバーレイの位置・画像の余白はすべてそこから引く",
+    "gallery_cell": "サムネイル一覧の一辺は S=112 / M=158 / L=224、間隔 10px、ファイル名に 20px。枠線は極細（現在位置のみティール＋グロー）",
+    "image_safe_area": "画像はバーに隠れない領域（上下の CHROME ぶんを除いた範囲）に収める。バーの出入りで余白は変えない——表示のたびに画像が伸び縮みする方が目障りなため"
+  },
+  "motion": {
+    "hover": "hover:scale-[1.01]",
+    "active": "active:scale-[0.98]",
+    "chrome_reveal": "マウス移動・キー操作で 120ms フェードイン、2000ms 無操作で 400ms フェードアウト",
+    "tab_switch": "Magic Motion（layoutId による滑らかな遷移）",
+    "disabled": "グレーアウトせず opacity-25〜40",
+    "_rule": "画像の切り替えそのものにトランジションを掛けない。ビューアでは「即座に出る」ことが最上のアニメーション"
+  },
+  "zindex": {
+    "base": 0,
+    "chrome": 30,
+    "floating": 40,
+    "modal": 50,
+    "tooltip": 60
+  },
+  "forbidden": [
+    "紫グラデーション on 白背景",
+    "Inter / Roboto / Arial / Outfit / システムフォント頼みのタイポグラフィ",
+    "和文UIへの明朝系フォント（Shippori Mincho 等）",
+    "text-[10px] / text-[11px] や薄すぎるカラーの説明文",
+    "太いグレー枠・デフォルト影・原色ベタ塗り",
+    "このファイルに無い色やフォントの直書き導入",
+    "外部CDNからのフォント・スクリプト読み込み",
+    "画像キャンバス領域への純黒以外の背景色",
+    "画像切り替え時のクロスフェード等の演出（速度の妨げになる）",
+    "上下バーで画像の一部を隠すこと（バー高さぶんの余白を必ず確保する）"
+  ],
+  "app_text_tone": "アプリ内のヘルプ・設定補足・マニュアル類は「です・ます調（セミフォーマル）」で統一"
+}
